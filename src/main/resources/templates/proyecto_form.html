@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CRUD con Spring Boot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #c41230;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            height: 45px;
+            font-size: 16px;
+        }
+        textarea.form-control {
+            height: 120px;
+        }
+        .btn-guardar {
+            background-color: #c41230;
+            border-color: #c41230;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .btn-guardar:hover {
+            background-color: #a30f28;
+            border-color: #a30f28;
+            color: white;
+        }
+        .btn-volver {
+            color: #c41230;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+        .btn-volver:hover {
+            color: #a30f28;
+            text-decoration: none;
+        }
+        .header-icon {
+            margin-right: 10px;
+        }
+        .action-icon {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-project-diagram header-icon"></i>Crear Proyecto</h1>
+    </div>
+    <div class="container">
+        <div class="form-container">
+            <form th:action="@{/proyectos}" method="post" th:object="${proyecto}">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" th:field="*{nombre}" class="form-control" required/>
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea th:field="*{descripcion}" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Fecha de Inicio</label>
+                    <input type="date" th:field="*{fechaInicio}" class="form-control" required/>
+                </div>
+                <div class="form-group">
+                    <label>Estado</label>
+                    <select th:field="*{estado}" class="form-control" required>
+                        <option value="EN_PROGRESO">En Progreso</option>
+                        <option value="FINALIZADO">Finalizado</option>
+                        <option value="CANCELADO">Cancelado</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-guardar">
+                    <i class="fas fa-save action-icon"></i>Guardar
+                </button>
+                <a th:href="@{/proyectos}" class="btn btn-volver">
+                    <i class="fas fa-arrow-left action-icon"></i>Volver
+                </a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

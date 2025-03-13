@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CRUD con Spring Boot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #c41230;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .content-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .project-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            transition: box-shadow 0.3s ease;
+        }
+        .project-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .project-title {
+            color: #c41230;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+        .project-info {
+            margin-bottom: 15px;
+            color: #666;
+        }
+        .btn-action {
+            background-color: #c41230;
+            border-color: #c41230;
+            color: white;
+            margin-right: 10px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none !important;
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        .btn-action:hover {
+            background-color: #a30f28;
+            border-color: #a30f28;
+            color: white;
+            transform: translateY(-1px);
+        }
+        .btn-nuevo {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .btn-nuevo:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+        .btn-eliminar {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .btn-eliminar:hover {
+            background-color: #c82333;
+            border-color: #c82333;
+        }
+        .header-icon {
+            margin-right: 10px;
+        }
+        .action-icon {
+            margin-right: 5px;
+        }
+        .project-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        .status-activo {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-progreso {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        .status-finalizado {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .actions-container {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-project-diagram header-icon"></i>Mis Proyectos</h1>
+    </div>
+    <div class="container">
+        <div class="content-container">
+            <div class="mb-4">
+                <a th:href="@{/proyectos/crear}" class="btn btn-action btn-nuevo">
+                    <i class="fas fa-plus action-icon"></i>Nuevo Proyecto
+                </a>
+            </div>
+
+            <div th:each="proyecto : ${proyectos}" class="project-card">
+                <h3 class="project-title" th:text="${proyecto.nombre}">Nombre del Proyecto</h3>
+                <div class="project-info">
+                    <p><strong>Descripción:</strong> <span th:text="${proyecto.descripcion}">Descripción del proyecto</span></p>
+                    <p><strong>Fecha de Inicio:</strong> <span th:text="${#temporals.format(proyecto.fechaInicio, 'dd/MM/yyyy')}">01/01/2024</span></p>
+                    <span class="project-status" 
+                          th:classappend="${proyecto.estado == 'ACTIVO' ? 'status-activo' : 
+                                          proyecto.estado == 'EN_PROGRESO' ? 'status-progreso' : 'status-finalizado'}"
+                          th:text="${proyecto.estado}">Estado</span>
+                </div>
+                <div class="actions-container">
+                    <a th:href="@{'/proyectos/' + ${proyecto.id}}" class="btn btn-action">
+                        <i class="fas fa-eye action-icon"></i>Ver Detalles
+                    </a>
+                    <a th:href="@{'/proyectos/editar/' + ${proyecto.id}}" class="btn btn-action">
+                        <i class="fas fa-edit action-icon"></i>Editar
+                    </a>
+                    <a th:href="@{'/proyectos/eliminar/' + ${proyecto.id}}" class="btn btn-action btn-eliminar"
+                       onclick="return confirm('¿Estás seguro de que quieres eliminar este proyecto?')">
+                        <i class="fas fa-trash action-icon"></i>Eliminar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
